@@ -28,6 +28,6 @@ export async function POST(req: Request) {
       ),
     }),
   });
-console.log(result.response);
+console.log("THE RESULT OF THE API CALL", result.toJsonResponse());
   return result.toJsonResponse();
 }

@@ -23,6 +23,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+enum ProjectStatus {
+  ACTIVE
+  INACTIVE
+  COMPLETED
+  CANCELLED
+}
 
 model Project {
   id        Int      @id @default(autoincrement())
@@ -32,11 +38,13 @@ model Project {
   audience  String
   brand     String?
   tone      String?
-  keywords  String[]
-  channels  String[]
-  format    String[]
+  keywords  String
+  channels  String
+  format    String
   existingContent  String
+  status    ProjectStatus
   contents  Content[]
+  avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

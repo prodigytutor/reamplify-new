@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import * as z from 'zod';
 import GeneratedContent from './GeneratedContent';
-
+import { saveProject } from '@/lib/actions/project';
 
 type Inputs = z.infer<typeof FormDataSchema>
 
@@ -50,6 +50,10 @@ export default function Wizard() {
   const processForm: SubmitHandler<Inputs> = data => {
   console.log("Processing form")
     console.log("Data:", data)
+    const project = saveProject(data)
+    if (!project) {
+      throw new Error("Failed to save project")
+    }
     setLoading(true) 
     //call the content-completion api
         fetch('/api/content-completion', {
@@ -168,7 +172,7 @@ export default function Wizard() {
             <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
               <div className='sm:col-span-3'>
                 <label
-                  htmlFor='reName'
+                  htmlFor='name'
                   className='block text-sm font-medium leading-6 text-gray-900'
                 >
                   ReAmplify Campaign Name
@@ -176,14 +180,14 @@ export default function Wizard() {
                 <div className='mt-2'>
                   <input
                     type='text'
-                    id='reName'
-                    {...register('reName')}
+                    id='name'
+                    {...register('name')}
                     autoComplete='campaign-name'
                     className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
                   />
-                  {errors.reName?.message && (
+                  {errors.name?.message && (
                     <p className='mt-2 text-sm text-red-400'>
-                      {errors.reName.message}
+                      {errors.name.message}
                     </p>
                   )}
                 </div>
@@ -279,7 +283,7 @@ export default function Wizard() {
 
               <div className='col-span-full'>
                 <label
-                  htmlFor='existing'
+                  htmlFor='existingContent'
                   className='block text-sm font-medium leading-6 text-gray-900'
                 >
                   Existing Content
@@ -287,14 +291,14 @@ export default function Wizard() {
                 <div className='mt-2'>
                   <input
                     type='text'
-                    id='existing'
-                    {...register('existing')}
-                    autoComplete='existing'
+                    id='existingContent'
+                    {...register('existingContent')}
+                    autoComplete='existing-content'
                     className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
                   />
-                  {errors.existing?.message && (
+                  {errors.existingContent?.message && (
                     <p className='mt-2 text-sm text-red-400'>
-                      {errors.existing.message}
+                      {errors.existingContent.message}
                     </p>
                   )}
                 </div>
@@ -354,7 +358,7 @@ export default function Wizard() {
 
               <div className='sm:col-span-2'>
                 <label
-                  htmlFor='formats'
+                  htmlFor='format'
                   className='block text-sm font-medium leading-6 text-gray-900'
                 >
                   Formats
@@ -362,17 +366,29 @@ export default function Wizard() {
                 <div className='mt-2'>
                   <input
                     type='text'
-                    id='formats'
-                    {...register('formats')}
+                    id='format'
+                    {...register('format')}
                     autoComplete='address-level1'
                     className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
                   />
-                  {errors.formats?.message && (
+                  {errors.format?.message && (
                     <p className='mt-2 text-sm text-red-400'>
-                      {errors.formats.message}
+                      {errors.format.message}
                     </p>
                   )}
                 </div>
+                <input
+                  type='hidden'
+                  id='status'
+                  {...register('status')}
+                  value='ACTIVE'
+                  />
+                  <input
+                  type='hidden'
+                  id='userId'
+                  {...register('userId')}
+                  value='1'
+                  />
               </div>
 
             </div>
