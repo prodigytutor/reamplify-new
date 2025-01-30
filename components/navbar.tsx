@@ -2,14 +2,14 @@
 import React from 'react'
 import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
-import { UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignInButton, UserButton, UserProfile } from '@clerk/nextjs'
 
 
 
 
 export default async function Navbar() {
     const { userId } = await auth()
-
+    console.log("userID", userId)
     return (
         <nav className="bg-gradient-to-br from-indigo-500 to-cyan-500 p-4">
             <div className="flex justify-between">
@@ -31,18 +31,18 @@ export default async function Navbar() {
                     </Link>
                 </div>
                 <div>
-                    {userId ? (
+                    <SignedIn>
                         <>
-                        <Link href="/dashboard">
-                            <span className="text-white mr-4">Dashboard</span>
-                        </Link>
-                        <UserButton />
+                            <Link href="/dashboard">
+                                <span className="text-white mr-4">Dashboard</span>
+                            </Link>
+                            <UserButton />
                         </>
-                    ) : (
-                        <Link href="/sign-in">
-                            <span className="text-white mr-4">Sign In</span>
-                        </Link>
-                    )}
+                    </SignedIn>
+                    <SignedOut><Link href="/sign-in">
+                        <span className="text-white mr-4"><SignInButton /></span>
+                    </Link></SignedOut>
+
                 </div>
             </div>
         </nav>

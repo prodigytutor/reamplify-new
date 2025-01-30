@@ -19,7 +19,7 @@ export default function LandingPage() {
           variants={slideIn}
         >
           <FileText className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-          <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">ContentAI</span>
+          <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">ReAmplify</span>
         </motion.a>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <motion.a 
@@ -73,10 +73,12 @@ export default function LandingPage() {
               <motion.div className="w-full max-w-sm space-y-2" variants={scaleIn}>
                 <form className="flex space-x-2">
                   <Input className="max-w-lg flex-1" placeholder="Enter your email" type="email" />
+                  <Link href='/dashboard'>
                   <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
+                  </Link>
                 </form>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
                   Start repurposing your content in minutes. No credit card required.

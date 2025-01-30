@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Navbar from '@/components/navbar'
 import AppProviders from './providers'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -16,7 +17,6 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-
   return (
 <AppProviders>
       <html lang="en">
@@ -24,9 +24,11 @@ export default function RootLayout({
           <header>
             <Navbar />
           </header>
+          
           <main className="bg-gradient-to-br from-indigo-50 to-cyan-50">
             {children}
           </main>
+
         </body>
       </html>
       </AppProviders>

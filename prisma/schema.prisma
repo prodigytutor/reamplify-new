@@ -24,6 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 enum ProjectStatus {
+  DRAFT
   ACTIVE
   INACTIVE
   COMPLETED
@@ -38,10 +39,10 @@ model Project {
   audience  String
   brand     String?
   tone      String?
-  keywords  String
-  channels  String
-  format    String
-  existingContent  String
+  keywords  String?
+  channels  String?
+  format    String?
+  existingContent  String?
   status    ProjectStatus
   contents  Content[]
   avatar    String?

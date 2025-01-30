@@ -51,6 +51,7 @@ export default function Wizard() {
   console.log("Processing form")
     console.log("Data:", data)
     const project = saveProject(data)
+    console.log("Project", project)
     if (!project) {
       throw new Error("Failed to save project")
     }

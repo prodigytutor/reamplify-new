@@ -15,6 +15,8 @@ import {
 import { FileText, BarChart, Users, ArrowUpRight, Plus } from 'lucide-react'
 import { fadeIn, staggerChildren, scaleIn } from '../../utils/animations'
 import Link from 'next/link'
+import { fetchProjects, saveProjectWithDefaults } from '@/lib/actions/project'
+import CurrentProjects from '@/components/CurrentProjects'
 
 // Mock data for the dashboard
 const projectsData = [
@@ -31,6 +33,13 @@ const recentActivities = [
 ]
 
 export default function Dashboard() {
+const projects = fetchProjects()
+  console.log("Dashboard")
+  function handleClick() {
+    console.log("New Project")
+    const newProject = saveProjectWithDefaults()
+    console.log("New Project", newProject)
+  } 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-cyan-50 dark:from-gray-900 dark:to-gray-800">
       <header className="px-4 lg:px-6 h-16 flex items-center backdrop-blur-md bg-white/30 dark:bg-gray-800/30 sticky top-0 z-50">
@@ -40,7 +49,7 @@ export default function Dashboard() {
           animate="visible"
           variants={fadeIn}
         >
-          ContentAI Dashboard
+          ReAmplify Dashboard
         </motion.div>
       </header>
       
@@ -107,35 +116,8 @@ export default function Dashboard() {
           animate="visible"
           variants={staggerChildren}
         >
-          <motion.div className="col-span-4" variants={fadeIn}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Current Projects</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Progress</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {projectsData.map((project) => (
-                      <TableRow key={project.id}>
-                        <TableCell className="font-medium">{project.name}</TableCell>
-                        <TableCell>
-                          <Progress value={project.progress} className="w-[60%]" />
-                        </TableCell>
-                        <TableCell>{project.status}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </motion.div>
+         {/* current orojects */}
+         <CurrentProjects projectsData={projects} />
           <motion.div className="col-span-3" variants={fadeIn}>
             <Card>
               <CardHeader>
@@ -169,6 +151,9 @@ export default function Dashboard() {
             <Plus className="mr-2 h-4 w-4" /> New Project
           </Button>
           </Link>
+          <Button onClick={handleClick} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+            <Plus className="mr-2 h-4 w-4" /> New Default Project
+          </Button>
         </motion.div>
       </main>
 
