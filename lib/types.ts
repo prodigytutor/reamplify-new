@@ -8,15 +8,15 @@ export type GeneratedContentType = {
 export type ProjectType = {
     name: string
     userId: number
-    audience: string
-    keywords: string
-    brand: string
-    existingContent: string
-    tone: string
-    channels: string
-    format: string
-    status: "ACTIVE" | "INACTIVE" | "COMPLETED" | "CANCELLED";
-    avatar?: string;
+    audience: string | null
+    keywords: string | null
+    brand: string | null
+    existingContent: string | null
+    tone: string | null
+    channels: string | null
+    format: string | null
+    status: "DRAFT" | "ACTIVE" | "INACTIVE" | "COMPLETED" | "CANCELLED";
+    avatar?: string | null
 }
 
 

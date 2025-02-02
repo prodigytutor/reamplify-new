@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import motiom from "framer-motion"
 
 import { fadeIn } from '@/utils/animations'
@@ -8,8 +8,31 @@ import { Table } from 'lucide-react'
 import { CardHeader, CardTitle, CardContent, Card } from './ui/card'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell } from './ui/table'
 import { ProjectType } from '@/lib/types'
+import { fetchProjects } from '@/lib/actions/project'
 
-const CurrentProjects = (projectsData:  ProjectType[]) => {
+
+export default async function CurrentProjects() {
+  const [projects, setProjects] = useState<ProjectType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProjects() {
+      try {
+        const projects = await fetchProjects();
+        setProjects(projects);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProjects();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <motion.div className="col-span-4" variants={fadeIn}>
             <Card>
@@ -17,7 +40,7 @@ const CurrentProjects = (projectsData:  ProjectType[]) => {
                 <CardTitle>Current Projects</CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
+                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
@@ -26,7 +49,7 @@ const CurrentProjects = (projectsData:  ProjectType[]) => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {projectsData.map((project, index) => (
+                    {projects.map((project: ProjectType, index: number) => (
                       <TableRow key={index}>
                         <TableCell className="font-medium">{project.name}</TableCell>
                         <TableCell>
@@ -42,4 +65,3 @@ const CurrentProjects = (projectsData:  ProjectType[]) => {
           </motion.div>
   )
 }
-export default CurrentProjects

@@ -17,14 +17,17 @@ import { fadeIn, staggerChildren, scaleIn } from '../../utils/animations'
 import Link from 'next/link'
 import { fetchProjects, saveProjectWithDefaults } from '@/lib/actions/project'
 import CurrentProjects from '@/components/CurrentProjects'
-
+import NewProject from '@/components/NewProject'
+import { useState } from 'react'
+import { ProjectType } from '@/lib/types'
+import React from 'react'
 // Mock data for the dashboard
-const projectsData = [
-  { id: 1, name: "Blog to Social Media", progress: 75, status: "In Progress" },
-  { id: 2, name: "Podcast to Newsletter", progress: 100, status: "Completed" },
-  { id: 3, name: "YouTube to Twitter Thread", progress: 30, status: "In Progress" },
-  { id: 4, name: "Webinar to LinkedIn Posts", progress: 0, status: "Not Started" },
-]
+// const projectsData = [
+//   { id: 1, name: "Blog to Social Media", progress: 75, status: "In Progress" },
+//   { id: 2, name: "Podcast to Newsletter", progress: 100, status: "Completed" },
+//   { id: 3, name: "YouTube to Twitter Thread", progress: 30, status: "In Progress" },
+//   { id: 4, name: "Webinar to LinkedIn Posts", progress: 0, status: "Not Started" },
+// ]
 
 const recentActivities = [
   { id: 1, action: "Project Created", project: "Webinar to LinkedIn Posts", time: "2 hours ago" },
@@ -33,7 +36,7 @@ const recentActivities = [
 ]
 
 export default function Dashboard() {
-const projects = fetchProjects()
+
   console.log("Dashboard")
   function handleClick() {
     console.log("New Project")
@@ -117,7 +120,7 @@ const projects = fetchProjects()
           variants={staggerChildren}
         >
          {/* current orojects */}
-         <CurrentProjects projectsData={projects} />
+         {/* <CurrentProjects /> */}
           <motion.div className="col-span-3" variants={fadeIn}>
             <Card>
               <CardHeader>
@@ -146,14 +149,12 @@ const projects = fetchProjects()
           animate="visible"
           variants={fadeIn}
         >
-          <Link href="/content-wizard">
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            <Plus className="mr-2 h-4 w-4" /> New Project
-          </Button>
-          </Link>
-          <Button onClick={handleClick} className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            <Plus className="mr-2 h-4 w-4" /> New Default Project
-          </Button>
+          
+         
+            <Plus className="mr-2 h-4 w-4" /> <NewProject />
+
+          
+          
         </motion.div>
       </main>
 

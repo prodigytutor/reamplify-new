@@ -2,7 +2,10 @@
 import { ProjectType } from "../types";
 import { prisma } from "../prisma";
 
-
+type SaveProjectType = {
+  id: number | null;
+  project: ProjectType;
+};
 export async function saveProjectWithDefaults() {
   const project = {name: 'New Project', userId: 1};
   console.log("Saving project to database", project);
@@ -39,7 +42,7 @@ export async function fetchProjects() {
         userId: userId
       }
     });
-    console.log("Projects fetched from database", projects);
+    //console.log("Projects fetched from database", projects);
     return projects;
   } catch (error) {
     console.error("Error fetching projects from database:", error);
@@ -50,22 +53,43 @@ export async function fetchProjects() {
 
 
 
-export async function saveProject(project: ProjectType) {
+export async function saveProject(project: SaveProjectType) {
   // Save project to database
   console.log("Saving project to database", project);
   try {
+    if (project.id) {
+        const updatedProject = await prisma.project.update({
+          where: {
+            id: project.id
+          },
+          data: {
+            name: project.project.name,
+            audience: project.project.audience || '',
+            keywords: project.project.keywords,
+            brand: project.project.brand,
+            existingContent: project.project.existingContent,
+            tone: project.project.tone,
+            channels: project.project.channels,
+            format: project.project.format,
+            status: project.project.status,
+            //
+            // avatar: project.avatar
+          }
+        });
+        console.log("Project updated in database", updatedProject);
+    } else {
     const newProject = await prisma.project.create({
       data: {
-        name: project.name,
-        userId: project.userId,
-        audience: project.audience,
-        keywords: project.keywords,
-        brand: project.brand,
-        existingContent: project.existingContent,
-        tone: project.tone,
-        channels: project.channels,
-        format: project.format,
-        status: project.status,
+        name: project.project.name,
+        userId: project.project.userId,
+        audience: project.project.audience || '',
+        keywords: project.project.keywords,
+        brand: project.project.brand,
+        existingContent: project.project.existingContent,
+        tone: project.project.tone,
+        channels: project.project.channels,
+        format: project.project.format,
+        status: project.project.status,
         //
         // 
         // vatar: project.avatar
@@ -73,6 +97,7 @@ export async function saveProject(project: ProjectType) {
     });
     console.log("Project saved to database", newProject);
     return newProject;
+  }
   } catch (error) {
     console.error("Error saving project to database:", error);
     throw error;

@@ -26,8 +26,10 @@ const steps = [
   },
   { id: 'Step 3', name: 'Complete' }
 ]
-
-export default function Wizard() {
+type WizardProps = {
+projectId: number
+}
+export default function Wizard(projectId: WizardProps) {
   const [previousStep, setPreviousStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [formData, setFormData] = useState<Inputs | null>(null)
@@ -50,7 +52,7 @@ export default function Wizard() {
   const processForm: SubmitHandler<Inputs> = data => {
   console.log("Processing form")
     console.log("Data:", data)
-    const project = saveProject(data)
+    const project = saveProject({id: projectId.projectId, project: data})
     console.log("Project", project)
     if (!project) {
       throw new Error("Failed to save project")
@@ -382,7 +384,7 @@ export default function Wizard() {
                   type='hidden'
                   id='status'
                   {...register('status')}
-                  value='ACTIVE'
+                  value='DRAFT'
                   />
                   <input
                   type='hidden'

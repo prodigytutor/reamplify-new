@@ -30,3 +30,4 @@ const GeneratedContent = (props: Props) => {
 </div>
   )
 }
+export default GeneratedContent
